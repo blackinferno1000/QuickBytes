@@ -6,20 +6,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Admin Page</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+    
 </head>
 
 <body>
     <div id="admin">
-        <h1>Quick Bytes Admin Page</h1>
+        <h1>{{title}}</h1>
         <ul>
-            <li>{{searches}}</li>
+            <li v-for='s of searches'>{{s}}</li>
         </ul>
     </div>
     <script>
-        const admin = new Vue({
+        let admin = new Vue({
             el:'#admin',
             data: {
-                searches: {}
+                title:'Quick Bytes Admin Page',
+                searches: ref.data.search
             },
             created(){
                 this.refresh();

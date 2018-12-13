@@ -31,7 +31,7 @@
 			<div id="form">
 				<b-form inline>
 
-					<b-form-input type="text" v-model='term'></b-form-input>
+					<b-form-input type="text" v-model='term' @change='storeTerm'></b-form-input>
 
 					<b-form-input type="text" v-model='loc'></b-form-input>
 
@@ -49,10 +49,6 @@
 						<option value="40000">25 Miles</option>
 					</b-form-select>
 
-					<b-form-checkbox id="checkbox1" v-model="openNow" value="true" unchecked-value="false">
-						Open Now
-					</b-form-checkbox>
-
 					<b-button @click='search'>Search</b-button>
 				</b-form>
 			</div>
@@ -60,7 +56,7 @@
 				<h3>Results:</h3>
 				<div id="results">
 
-					<div class="cards">
+					<!-- <div class="cards">
 						<h4>Title</h4>
 						<img src="" alt="">
 						<p>Lorem ipsum dolor, sit amet consectetur adipisicing elit.
@@ -72,7 +68,8 @@
 							<li v-for=''>{{}}</li>
 						</ul>
 						<button><a href="">Review Here</a></button>
-					</div>
+					</div> -->
+					
 
 				</div>
 			</div>

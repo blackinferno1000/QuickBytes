@@ -20,7 +20,7 @@ let ref = database.ref('searches');
 
 // #3 - create some data
 let data = {
-    search: ['','','']
+    search: []
 };
 
 // #4 - send data, in this case we are adding it to the `scores` node

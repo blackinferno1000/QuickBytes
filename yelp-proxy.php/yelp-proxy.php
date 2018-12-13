@@ -19,12 +19,15 @@
 			// print_r($_REQUEST); // use for debugging to see what the `term` and `location` are
 			// This will have all of the values from the request and information about the request
       $term = $_REQUEST['term'];
-      $location = $_REQUEST['location'];
+			$location = $_REQUEST['location'];
+			$limit = $_REQUEST['limit'];
+			$price = $_REQUEST['price'];
+			$radius = $_REQUEST['radius'];
         
       // encode spaces in the parameters as +
       $term = str_replace(' ', '+', $term);
       $location = str_replace(' ', '+', $location);
-      $url = $BASE_URL . "term=$term&location=$location";
+      $url = $BASE_URL . "term=$term&location=$location&limit=$limit&price=$price&radius=$radius";
       
       // set up our authorization headers to send the API key
 			$headers = stream_context_create(array(
