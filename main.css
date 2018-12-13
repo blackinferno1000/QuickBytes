@@ -1,0 +1,55 @@
+body{
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: rgb(228, 240, 232);
+}
+#map {
+    height: 500px;
+    width: 500px;
+    margin: 0 auto;
+    background-color: rgb(0,150,50);
+    padding: 5px;
+}
+h1{
+    margin-top: 5px;
+    text-align: center;
+    background-color: rgb(0,150,50);
+    color: rgb(3, 31, 12);
+    padding: 5px;
+    border-radius: 10px;
+}
+#app{
+    background-color: rgb(228, 240, 232);
+}
+section{
+    margin-top: 50px;
+}
+#cardArea{
+    margin-top: 100px;
+    background-color: rgb(195, 233, 207);
+    padding: 5px;
+    border-radius: 10px;
+}
+#results{
+    height: 500px;
+}
+footer{
+    background-color: rgb(0,150,50);
+    color: rgb(3, 31, 12);
+    border-radius: 10px;
+}
+footer p{
+    padding: 10px;
+}
+.cards{
+    width: 250px;
+    height: 350px;
+    background-color: rgb(120, 189, 142);
+    border-radius: 10px;
+}
+#form{
+    width: 500px;
+    height: 200px;
+    background-color: rgb(130, 223, 160);
+}

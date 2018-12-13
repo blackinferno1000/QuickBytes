@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<title>Quick Bytes</title>
+
+	<!-- fonts -->
+	<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+
+	<!-- bootstrap vue styles -->
+	<link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap/dist/css/bootstrap.min.css" />
+	<link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.css" />
+
+	<!-- bootstrp vue scripts -->
+	<script src="https://unpkg.com/vue"></script>
+	<script src="https://unpkg.com/babel-polyfill@latest/dist/polyfill.min.js"></script>
+	<script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.js"></script>
+
+	<!-- source styles -->
+	<link rel="stylesheet" href="main.css">
+</head>
+
+<body>
+	<div id="app" class="container-fluid">
+		<header>
+			<h1>{{title}}</h1>
+		</header>
+		<section class="container-fluid">
+			<div id="map"></div>
+			<div id="form">
+				<b-form inline>
+
+					<b-form-input type="text" v-model='term'></b-form-input>
+
+					<b-form-input type="text" v-model='loc'></b-form-input>
+
+					<b-form-select class="mb-3" v-model='limit' :options='limits'></b-form-select>
+
+					<b-form-select class="mb-3" v-model='price'>
+						<option value="1">$</option>
+						<option value="2">$$</option>
+						<option value="3">$$$</option>
+					</b-form-select>
+
+					<b-form-select class="mb-3" v-model='radius'>
+						<option value="8250">5 Miles</option>
+						<option value="16500">10 Miles</option>
+						<option value="40000">25 Miles</option>
+					</b-form-select>
+
+					<b-form-checkbox id="checkbox1" v-model="openNow" value="true" unchecked-value="false">
+						Open Now
+					</b-form-checkbox>
+
+					<b-button @click='search'>Search</b-button>
+				</b-form>
+			</div>
+			<div id="cardArea" class="container-fluid col-8">
+				<h3>Results:</h3>
+				<div id="results">
+
+					<div class="cards">
+						<h4>Title</h4>
+						<img src="" alt="">
+						<p>Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+							Nihil nemo accusantium consequuntur aliquid ipsa dolore
+							nostrum natus eveniet quia, nisi id perspiciatis, alias
+							iure deserunt ratione? Id sapiente beatae inventore?</p>
+						<h5>label</h5>
+						<ul>
+							<li v-for=''>{{}}</li>
+						</ul>
+						<button><a href="">Review Here</a></button>
+					</div>
+
+				</div>
+			</div>
+		</section>
+		<footer>
+			<p>Copyright 2018 Sean Lightfoot</p>
+		</footer>
+
+	</div>
+
+	<!-- JQuery CDN -->
+	<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+	 crossorigin="anonymous"></script>
+
+	<!-- database scripts -->
+	<script src="https://www.gstatic.com/firebasejs/5.6.0/firebase.js"></script>
+	<script src="./src/database.js"></script>
+
+	<!-- Google Maps -->
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC2LlibimGNTYnA1bg2a1Le3XEB2-qPkLE&callback=app.initMap"
+	 async defer></script>
+
+	<!-- source code -->
+	<script src="./src/components.js"></script>
+	<script src="./src/main.js"></script>
+</body>
+
+</html>
