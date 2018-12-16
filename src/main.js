@@ -9,6 +9,15 @@
 // let categories = 'food,';
 // let radius = 16500; //starts at 10 mile radius
 
+class MapData {
+    constructor(longitude, latitude, title, address) {
+        this.longitude = longitude;
+        this.latitude = latitude;
+        this.title = title;
+        this.address = address;
+    }
+}
+
 var app = new Vue({
     el: "#app",
     data: {
@@ -19,18 +28,37 @@ var app = new Vue({
         limits: [10, 25, 50],
         offset: 0,
         price: 1,
-        categories: 'food,',
+        categories: 'food',
         radius: 16500,
-        results: []
+        results: [],
+        locations: [],
+        total: 0,
+        center: {
+            lat: 43.083848,
+            lng: -77.6799
+        }
     },
     created() {
-        this.search();
+        this.getLocation();
+        this.search(false);
     },
     methods: {
         // https://people.rit.edu/sal6961/330/yelp-proxy/yelp-proxy.php?term?=${term}&location?=${loc}&radius?=${radius}&categories?=${categories}&limit?=${limit}&offset?=${offset}&price?=${price}&open_now?=${openNow}`
 
+        showPosition(position) {
+            this.center.lat = position.coords.latitude;
+            this.center.lng = position.coords.longitude;
+        },
+
+        getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(this.showPosition);
+            } 
+        },
+
         populateCards(data) {
             let resultsArray = [];
+            this.total = data.total;
             for (let i = 0; i < data.businesses.length /*limit*/ ; i++) {
                 //assignments to new result object
                 let result = {}
@@ -43,15 +71,20 @@ var app = new Vue({
                 result.reviewCount = data.businesses[i].review_count;
                 result.url = data.businesses[i].url;
                 result.location = data.businesses[i].location;
-                result.imageURL = data.businesses[i].image_url;
+                result.image = data.businesses[i].image_url;
                 result.distance = data.businesses[i].distance;
                 //push result object into array
                 resultsArray.push(result);
             }
             this.results = resultsArray;
+            this.createMapData(this.results);
+            this.initMap();
         },
 
-        search() {
+        search(nav) {
+            if(!nav){
+                this.offset = 0;
+            }
             $.ajax({
                 type: "POST",
                 url: 'https://people.rit.edu/sal6961/330/yelp-proxy/yelp-proxy.php',
@@ -75,12 +108,26 @@ var app = new Vue({
                     console.log(data);
                     // this.results = this.populateCards(data)
                     app.populateCards(data);
-                    alert('successful!');
+                    // alert('successful!');
                 },
                 error: function (xhr, status, error) {
                     console.error(error)
                 }
             });
+        },
+
+        searchBack() {
+            if (this.offset > 0) {
+                this.offset -= this.limit;
+                this.search(true);
+            }
+        },
+
+        searchNext() {
+            if (this.total > this.offset + this.limit) {
+                this.offset += this.limit;
+                this.search(true);
+            }
         },
 
         storeTerm() {
@@ -107,22 +154,37 @@ var app = new Vue({
             ref.set(data);
         },
 
+        createMapData(data) {
+            let mapData = [];
+            for (let i = 0; i < data.length; i++) {
+                let map = new MapData(data[i].coordinates.longitude, data[i].coordinates.latitude, data[i].name, data[i].location.display_address[0] + ',  ' + data[i].location.display_address[1]);
+                // map.longitude = data[i].coordinates.longitude;
+                // map.latitude = data[i].coordinates.latitude;
+                // map.title = data[i].name;
+                // map.address = data[i].location.display_address[0] + '  ' + data[i].location.display_address[1];
+                mapData.push(map);
+            }
+            this.locations = mapData;
+        },
+
         initMap() {
             const mapOptions = {
-                center: {
-                    lat: 43.083848,
-                    lng: -77.6799
-                },
-                zoom: 16,
+                center: this.center,
+                zoom: 10,
                 mapTypeId: google.maps.MapTypeId.ROADMAP
             };
 
             this.map = new google.maps.Map(document.getElementById('map'), mapOptions);
             this.map.mapTypeId = 'satellite';
             this.map.setTilt(45);
+            if (this.locations.length > 0) {
+                for (let obj of this.locations) {
+                    this.addMarker(obj.latitude, obj.longitude, obj.title, obj.address);
+                }
+            }
         },
 
-        addMarker(latitude, longitude, title) {
+        addMarker(latitude, longitude, title, address) {
             let position = {
                 lat: latitude,
                 lng: longitude
@@ -131,7 +193,7 @@ var app = new Vue({
                 position: position,
                 map: this.map
             });
-            marker.setTitle(title);
+            marker.setTitle(title + "<br>" + address);
             // Add a listener for the click event
             google.maps.event.addListener(marker, 'click', function (e) {
                 // `this` doesn't work here - because it refers to the marker that was clicked on - use `app` instead

@@ -28,8 +28,10 @@
 		</header>
 		<section class="container-fluid">
 			<div id="map"></div>
-			<div id="form">
-				<b-form inline>
+			<div id="form" class="mx-auto container-fluid col-8">
+				<b-form inline class="mx-auto">
+
+					<b-button variant="danger" @click='searchBack' style="margin-left: 5px;">Back</b-button>
 
 					<b-form-input type="text" v-model='term' @change='storeTerm'></b-form-input>
 
@@ -49,33 +51,28 @@
 						<option value="40000">25 Miles</option>
 					</b-form-select>
 
-					<b-button @click='search'>Search</b-button>
+					<b-button variant="outline-success" @click='search(false)'>Search</b-button>
+
+					<b-button variant="primary" @click='searchNext' style="margin-left: 10px;">Next</b-button>
 				</b-form>
 			</div>
-			<div id="cardArea" class="container-fluid col-8">
-				<h3>Results:</h3>
-				<div id="results">
-
-					<!-- <div class="cards">
-						<h4>Title</h4>
-						<img src="" alt="">
-						<p>Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-							Nihil nemo accusantium consequuntur aliquid ipsa dolore
-							nostrum natus eveniet quia, nisi id perspiciatis, alias
-							iure deserunt ratione? Id sapiente beatae inventore?</p>
-						<h5>label</h5>
-						<ul>
-							<li v-for=''>{{}}</li>
-						</ul>
-						<button><a href="">Review Here</a></button>
-					</div> -->
-					
-
+			<div id="cardArea" class="container-fluid col-9">
+				<h3>Results: {{total}}</h3>
+				<h5>{{offset}} - {{offset+limit}} / {{total}}</h5>
+				<div id="results" class="container-fluid">
+					<b-card-group deck>
+						<restaurant-card v-for='r in results'
+						 v-bind:name='r.name' v-bind:phone='r.phone'
+						 v-bind:rating='r.rating' v-bind:url='r.url'
+						 v-bind:image='r.image' v-bind:distance='r.distance'
+						 v-bind:location='r.location'>
+						</restaurant-card>
+					</b-card-group>
 				</div>
 			</div>
 		</section>
 		<footer>
-			<p>Copyright 2018 Sean Lightfoot</p>
+			<p>Copyright &copy; 2018 Sean Lightfoot</p>
 		</footer>
 
 	</div>

@@ -1,20 +1,14 @@
 Vue.component('restaurant-card', {
-	props: ['name','phone','rating','url','imageURL','distance','location'],
+	props: ['name','phone','rating','url','image','distance','location'],
 	template: `
 	<div>
-  <b-card title="{{name}}"
-          img-src="{{imageURL}}"
-          img-alt="{{name}}"
+  <b-card :title="name"
+          :img-src="image"
+          :img-alt="name"
           img-top
           tag="article"
           style="max-width: 20rem;"
           class="mb-2">
-    <p class="card-text">
-      {{location.display_address[0]}}
-	</p>
-	<p class="card-text">
-      {{location.display_address[1]}}
-	</p>
 	<p class="card-text">
       Phone Number: {{phone}}
 	</p>
@@ -22,9 +16,9 @@ Vue.component('restaurant-card', {
       Rating: {{rating}}
 	</p>
 	<p class="card-text">
-      It's only {{distance/1609.344}} miles away
+      It's only {{(distance/1609.344).toFixed(2)}} miles away
 	</p>
-    <b-button href="{{url}}" variant="primary">Reviews</b-button>
+    <b-button target='_blank' :href="url" variant="primary">Reviews</b-button>
   </b-card>
 </div>
 	`
